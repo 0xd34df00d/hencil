@@ -50,3 +50,6 @@ whole = unfoldr f
 
 toFile :: [PenState] -> String
 toFile = intercalate "\n" . map (\(PenState _ x φ _ _) -> show (x - l * sin φ) ++ " " ++ show (l * cos φ))
+
+toFileEnd :: [PenState] -> String
+toFileEnd = intercalate "\n" . map (\(t, (PenState _ x φ _ _)) -> show t ++ " " ++ show x) . zip [1..]
