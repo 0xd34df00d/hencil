@@ -1,13 +1,13 @@
 import Data.List
 import Debug.Trace
 
-μ = 1.0
 δt = 0.001
 g = 1
 l = 1
 m = 1
 
 data PenState = PenState {
+            μ :: Double,
             xPos :: Double,
             φ :: Double,
             v :: Double,
@@ -21,10 +21,10 @@ data Forces = Forces {
             fF :: Double
         } deriving (Show)
 
-initState φ = PenState 0 φ 0 0
+initState μ φ = PenState μ 0 φ 0 0
 
 stepState :: PenState -> PenState
-stepState ps@(PenState xPos φ v ω) = let ps = PenState (xPos + δx) (φ + δφ) (v + δv) (ω + δω) in (ps, fs) `traceShow` ps
+stepState ps@(PenState μ xPos φ v ω) = let ps = PenState μ (xPos + δx) (φ + δφ) (v + δv) (ω + δω) in (ps, fs) `traceShow` ps
     where fs@(Forces φ'' fN fH fF) = calcForces ps
           δω = φ'' * δt
           δφ = ω * δt + δω * δt / 2
@@ -32,7 +32,7 @@ stepState ps@(PenState xPos φ v ω) = let ps = PenState (xPos + δx) (φ + δφ
           δx = v * δt + δv * δt / 2
 
 calcForces :: PenState -> Forces
-calcForces (PenState _ φ v ω) = Forces φ'' fN fH fF
+calcForces (PenState μ _ φ v ω) = Forces φ'' fN fH fF
     where φ'' = 3 * g * sin φ / (2 * l)
           aτ = φ'' * l
           an = ω ^ 2 * l
@@ -49,4 +49,4 @@ whole = unfoldr f
             where st' = stepState st
 
 toFile :: [PenState] -> String
-toFile = intercalate "\n" . map (\(PenState x φ _ _) -> show (x - l * sin φ) ++ " " ++ show (l * cos φ))
+toFile = intercalate "\n" . map (\(PenState _ x φ _ _) -> show (x - l * sin φ) ++ " " ++ show (l * cos φ))
