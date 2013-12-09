@@ -38,7 +38,7 @@ calcForces (PenState μ _ φ v ω) = Forces φ'' fN fH fF
           an = ω ^ 2 * l
           av = aτ * sin φ + an * cos φ
           ah = aτ * cos φ - an * sin φ
-          fN = m * g - m * av
+          fN = max 0 $ m * g - m * av
           fH = m * ah
           fF | abs fH <= μ * fN = fH
              | otherwise = signum fH * μ * fN 
