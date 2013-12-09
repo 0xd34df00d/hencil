@@ -43,4 +43,4 @@ whole = unfoldr f
             where st' = stepState st
 
 toFile :: [PenState] -> String
-toFile = intercalate "\n" . map (\(PenState x φ _ _) -> show (x - sin φ) ++ " " ++ show (cos φ))
+toFile = intercalate "\n" . map (\(PenState x φ _ _) -> show (x - l * sin φ) ++ " " ++ show (l * cos φ))
