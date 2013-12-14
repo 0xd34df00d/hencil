@@ -60,3 +60,5 @@ toFileEnd = intercalate "\n" . map (\(t, (PenState _ x φ _ _, Forces _ fN _ fF,
 makeEndPoss :: [Double] -> [(Double, Double)]
 makeEndPoss = map $ id &&& (\(last . whole . (`initState` 0.00001) -> (PenState _ xPos _ _ _, _, _)) -> xPos)
 
+possToFile :: [(Double, Double)] -> String
+possToFile = intercalate "\n" . map (\(x, y) -> show x ++ " " ++ show y)
